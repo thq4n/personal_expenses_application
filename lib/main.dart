@@ -1,87 +1,108 @@
 import 'package:flutter/material.dart';
-import 'result.dart';
-
-import 'quiz.dart';
+import 'package:intl/intl.dart';
+import 'package:personal_expenses_application/transaction.dart';
 
 void main(List<String> args) {
-  runApp(MyApp());
+  runApp(MyHomePage());
 }
 
-class MyApp extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() {
-    return _MyAppState();
-  }
-}
-
-class _MyAppState extends State<MyApp> {
-  final _questions = const [
-    {
-      "questionText": "What's your favorite color?",
-      "answers": [
-        {"answerText": "Black", "score": 1},
-        {"answerText": "Red", "score": 2},
-        {"answerText": "Green", "score": 3},
-        {"answerText": "White", "score": 4},
-      ],
-    },
-    {
-      "questionText": "What's your favorite animal?",
-      "answers": [
-        {"answerText": "Dog", "score": 1},
-        {"answerText": "Cat", "score": 2},
-        {"answerText": "Rabbit", "score": 3},
-        {"answerText": "Snake", "score": 4},
-      ],
-    },
-    {
-      "questionText": "What's your favorite drink?",
-      "answers": [
-        {"answerText": "Coke", "score": 1},
-        {"answerText": "Pepsi", "score": 2},
-        {"answerText": "Sting", "score": 3},
-        {"answerText": "7UP", "score": 4},
-      ],
-    },
+class MyHomePage extends StatelessWidget {
+  final List<Transaction> transactions = [
+    Transaction(
+      id: "1",
+      title: "New Shoes",
+      amount: 100.89,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: "2",
+      title: "New Hat",
+      amount: 13.89,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: "3",
+      title: "New Laptop",
+      amount: 2345.89,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: "4",
+      title: "New Pants",
+      amount: 43.89,
+      date: DateTime.now(),
+    ),
   ];
-
-  var _questionIndex = 0;
-  var _totalScore = 0;
-
-  void _answerQuestion(int score) {
-    setState(() {
-      _questionIndex = _questionIndex + 1;
-      _totalScore += score;
-    });
-  }
-
-  void _resetQuestion() {
-    setState(() {
-      _questionIndex = 0;
-      _totalScore = 0;
-    });
-
-    print(_questionIndex);
-  }
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          title: Text("My first app"),
-        ),
-        body: _questionIndex < _questions.length
-            ? Quiz(
-                questions: _questions,
-                answerQuestion: _answerQuestion,
-                questionIndex: _questionIndex,
-              )
-            : Result(
-                totalScore: _totalScore,
-                resetHandler: _resetQuestion,
+          appBar: AppBar(
+            title: Text("Flutter App"),
+          ),
+          body: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Card(
+                child: Container(
+                  width: double.infinity,
+                  color: Colors.amber,
+                  child: Text(
+                    "CHART!",
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                elevation: 5,
               ),
-      ),
+              Column(
+                children: transactions.map((tx) {
+                  return Card(
+                    child: Row(
+                      children: <Widget>[
+                        Container(
+                          padding: EdgeInsets.all(10),
+                          margin: EdgeInsets.symmetric(
+                            vertical: 10,
+                            horizontal: 15,
+                          ),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors.black,
+                            ),
+                          ),
+                          child: Text(
+                            "\$${tx.amount}",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                              color: Colors.amber,
+                            ),
+                          ),
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              tx.title,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              DateFormat("dd-MMM-yyyy | hh:mm:ss")
+                                  .format(tx.date),
+                              style: TextStyle(color: Colors.grey),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  );
+                }).toList(),
+              ),
+            ],
+          )),
     );
   }
 }
