@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:personal_expenses_application/transaction.dart';
+import 'transaction.dart';
 
 void main(List<String> args) {
   runApp(MyHomePage());
