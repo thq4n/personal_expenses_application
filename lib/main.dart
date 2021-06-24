@@ -20,18 +20,18 @@ class MyHomePage extends StatelessWidget {
       amount: 13.89,
       date: DateTime.now(),
     ),
-    Transaction(
-      id: "3",
-      title: "New Laptop",
-      amount: 2449.98,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: "4",
-      title: "New Pants",
-      amount: 43.89,
-      date: DateTime.now(),
-    ),
+    // Transaction(
+    //   id: "3",
+    //   title: "New Laptop",
+    //   amount: 2449.98,
+    //   date: DateTime.now(),
+    // ),
+    // Transaction(
+    //   id: "4",
+    //   title: "New Pants",
+    //   amount: 43.88,
+    //   date: DateTime.now(),
+    // ),
   ];
   @override
   Widget build(BuildContext context) {
@@ -41,7 +41,7 @@ class MyHomePage extends StatelessWidget {
             title: Text("Flutter App"),
           ),
           body: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               Card(
@@ -54,6 +54,31 @@ class MyHomePage extends StatelessWidget {
                   ),
                 ),
                 elevation: 5,
+              ),
+              Card(
+                elevation: 5,
+                child: Container(
+                  padding: EdgeInsets.all(10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: <Widget>[
+                      TextField(
+                        decoration: InputDecoration(
+                          labelText: "Tiltle",
+                        ),
+                      ),
+                      TextField(
+                        decoration: InputDecoration(
+                          labelText: "Amount",
+                        ),
+                      ),
+                      ElevatedButton(
+                        onPressed: () => null,
+                        child: Text("ADD"),
+                      ),
+                    ],
+                  ),
+                ),
               ),
               Column(
                 children: transactions.map((tx) {
