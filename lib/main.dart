@@ -15,6 +15,7 @@ class MyApp extends StatelessWidget {
       title: 'My App',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        fontFamily: "Quicksand",
         accentColor: Colors.grey.shade400,
         primarySwatch: Colors.blueGrey,
       ),
