@@ -28,11 +28,11 @@ class TransactionList extends StatelessWidget {
                     ),
                   ),
                   child: Text(
-                    "\$${transactions[index].amount}",
+                    "\$${transactions[index].amount.toStringAsFixed(2)}",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
-                      color: Colors.amber,
+                      color: Theme.of(context).primaryColorDark,
                     ),
                   ),
                 ),
