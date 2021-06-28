@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'My Appp',
+      title: 'My Apppp',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         fontFamily: "Quicksand",
