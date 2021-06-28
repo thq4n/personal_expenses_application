@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:personal_expenses_application/widgets/chart.dart';
 import 'package:personal_expenses_application/widgets/new_transaction.dart';
 
 import 'models/transaction.dart';
@@ -48,7 +49,15 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<Transaction> _userTransaction = [];
+  final List<Transaction> _userTransactions = [];
+
+  List<Transaction> get _recentTransactions {
+    return (_userTransactions.where((element) {
+      return element.date.isAfter(DateTime.now().subtract(Duration(
+        days: 7,
+      )));
+    })).toList();
+  }
 
   void _addNewTransaction(String txTitle, double txAmount) {
     final newTx = Transaction(
@@ -59,8 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
 
     setState(() {
-      _userTransaction.add(newTx);
-      print(_userTransaction.length);
+      _userTransactions.add(newTx);
     });
   }
 
@@ -94,18 +102,8 @@ class _MyHomePageState extends State<MyHomePage> {
           //mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Card(
-              child: Container(
-                width: double.infinity,
-                color: Theme.of(context).accentColor,
-                child: Text(
-                  "CHART!",
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              elevation: 5,
-            ),
-            TransactionList(_userTransaction),
+            Chart(_recentTransactions),
+            TransactionList(_userTransactions),
           ],
         ),
       ),
@@ -113,7 +111,6 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
-          print("haha");
           _startAddNewTransation(context);
         },
       ),
