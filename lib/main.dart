@@ -79,7 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("My Appp"),
+        title: Text("My App"),
         actions: <Widget>[
           IconButton(
             onPressed: () => _startAddNewTransation(context),
