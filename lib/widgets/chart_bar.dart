@@ -40,7 +40,7 @@ class ChartBar extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),

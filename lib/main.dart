@@ -94,7 +94,15 @@ class _MyHomePageState extends State<MyHomePage> {
           IconButton(
             onPressed: () => _startAddNewTransation(context),
             icon: Icon(Icons.add),
-          )
+          ),
+          // ElevatedButton(
+          //   onPressed: () => null,
+          //   child: Text("hihi"),
+          //   style: ButtonStyle(
+          //     backgroundColor:
+          //         MaterialStateProperty.all(Theme.of(context).accentColor),
+          //   ),
+          // ),
         ],
       ),
       body: SingleChildScrollView(
