@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class NewTransaction extends StatefulWidget {
   final Function addTransaction;
@@ -10,18 +11,25 @@ class NewTransaction extends StatefulWidget {
 }
 
 class _NewTransactionState extends State<NewTransaction> {
-  final titleController = TextEditingController();
+  final _titleController = TextEditingController();
+  final _amountController = TextEditingController();
+  final _dateController = TextEditingController(text: "Empty!");
 
-  final amountController = TextEditingController();
+  DateTime? _presentDate;
 
-  void submitData() {
-    if (titleController.text.isEmpty || amountController.text.isEmpty) {
+  void _submitData() {
+    if (_titleController.text.isEmpty ||
+        _amountController.text.isEmpty ||
+        _presentDate == null ||
+        _presentDate!.isAfter(DateTime.now())) {
       return;
     }
 
     try {
-      final enteredTitle = titleController.text;
-      final enteredAmount = double.parse(amountController.text);
+      final enteredTitle = _titleController.text;
+      final enteredAmount = double.parse(_amountController.text);
+      final enterDate = _presentDate;
+
       if (enteredAmount <= 0) {
         return;
       }
@@ -29,12 +37,30 @@ class _NewTransactionState extends State<NewTransaction> {
       widget.addTransaction(
         enteredTitle,
         enteredAmount,
+        enterDate,
       );
 
       Navigator.of(context).pop();
     } catch (e) {
       return;
     }
+  }
+
+  void _presentDatePicker(BuildContext ctx) {
+    showDatePicker(
+      context: ctx,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1900),
+      lastDate: DateTime(2090),
+    ).then((value) {
+      if (value == null) {
+        return;
+      } else {
+        _presentDate = value;
+        _dateController.text = DateFormat.yMMMd().format(value);
+      }
+      print(value.toString());
+    });
   }
 
   @override
@@ -44,22 +70,22 @@ class _NewTransactionState extends State<NewTransaction> {
       child: Container(
         padding: EdgeInsets.all(10),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             TextField(
               // onChanged: (value) {
               //   titleInput = value;
               // },
-              controller: titleController,
-              onSubmitted: (_) => submitData(),
+              controller: _titleController,
+              onSubmitted: (_) => _submitData(),
               decoration: InputDecoration(
                 labelText: "Tiltle",
               ),
             ),
             TextField(
               // onChanged: (value) => amountInput = value,
-              controller: amountController,
-              onSubmitted: (_) => submitData(),
+              controller: _amountController,
+              onSubmitted: (_) => _submitData(),
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
                 labelText: "Amount",
@@ -69,7 +95,7 @@ class _NewTransactionState extends State<NewTransaction> {
               children: <Widget>[
                 Flexible(
                   child: TextField(
-                    // onChanged: (value) => amountInput = value,
+                    controller: _dateController,
                     readOnly: true,
                     decoration: InputDecoration(
                       labelText: "Date",
@@ -77,7 +103,7 @@ class _NewTransactionState extends State<NewTransaction> {
                   ),
                 ),
                 ElevatedButton(
-                  onPressed: () => null,
+                  onPressed: () => _presentDatePicker(context),
                   child: Text("Choose date"),
                   style: ButtonStyle(
                     backgroundColor:
@@ -86,9 +112,13 @@ class _NewTransactionState extends State<NewTransaction> {
                 )
               ],
             ),
-            ElevatedButton(
-              onPressed: submitData,
-              child: Text("Add"),
+            Container(
+              width: double.infinity,
+              margin: EdgeInsets.all(10),
+              child: ElevatedButton(
+                onPressed: _submitData,
+                child: Text("Add"),
+              ),
             ),
           ],
         ),
