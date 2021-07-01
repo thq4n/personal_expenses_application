@@ -65,6 +65,27 @@ class _NewTransactionState extends State<NewTransaction> {
                 labelText: "Amount",
               ),
             ),
+            Row(
+              children: <Widget>[
+                Flexible(
+                  child: TextField(
+                    // onChanged: (value) => amountInput = value,
+                    readOnly: true,
+                    decoration: InputDecoration(
+                      labelText: "Date",
+                    ),
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () => null,
+                  child: Text("Choose date"),
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all(Colors.amber.shade400),
+                  ),
+                )
+              ],
+            ),
             ElevatedButton(
               onPressed: submitData,
               child: Text("Add"),

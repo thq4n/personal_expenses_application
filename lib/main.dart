@@ -22,6 +22,7 @@ class MyApp extends StatelessWidget {
           textTheme: ThemeData.light().textTheme.copyWith(
                 headline6: TextStyle(
                   fontFamily: "OpenSans",
+                  fontWeight: FontWeight.bold,
                   fontSize: 20,
                 ),
               ),
@@ -35,12 +36,14 @@ class MyApp extends StatelessWidget {
             ),
         primarySwatch: Colors.blueGrey,
       ),
-      home: MyHomePage(),
+      home: MyHomePage("Personal Expenses"),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
+  final String appTitle;
+  MyHomePage(this.appTitle);
   // String? titleInput;
   // String? amountInput;
 
@@ -89,7 +92,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("My App"),
+        title: Text(widget.appTitle),
         actions: <Widget>[
           IconButton(
             onPressed: () => _startAddNewTransation(context),
