@@ -11,24 +11,33 @@ class TransactionList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return transactions.isEmpty
-        ? Column(
-            children: <Widget>[
-              Text(
-                "No transactions added yet!",
-                style: Theme.of(context).textTheme.headline6,
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Container(
-                height: 200,
-                child: Image.asset(
-                  "assets/images/waiting.png",
-                  fit: BoxFit.cover,
+        ? LayoutBuilder(builder: (ctx, constraint) {
+            return Column(
+              children: <Widget>[
+                Container(
+                  height: constraint.maxHeight * 0.08,
+                  child: FittedBox(
+                    child: Text(
+                      "No transactions added yet!",
+                      style: Theme.of(context).textTheme.headline6,
+                    ),
+                  ),
                 ),
-              ),
-            ],
-          )
+                SizedBox(
+                  height: constraint.maxHeight * 0.07,
+                ),
+                Container(
+                  height: constraint.maxHeight * 0.85,
+                  alignment: Alignment.topCenter,
+                  padding: EdgeInsets.only(bottom: 40),
+                  child: Image.asset(
+                    "assets/images/waiting.png",
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ],
+            );
+          })
         : ListView.builder(
             itemBuilder: (context, index) {
               // return Card(
@@ -75,8 +84,8 @@ class TransactionList extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: FittedBox(
-                        child: Text(
-                            "\$${transactions[index].amount.toString()}")),
+                        child:
+                            Text("\$${transactions[index].amount.toString()}")),
                   ),
                 ),
                 title: Text(

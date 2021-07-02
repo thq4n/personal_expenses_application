@@ -73,49 +73,58 @@ class _NewTransactionState extends State<NewTransaction> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              TextField(
-                // onChanged: (value) {
-                //   titleInput = value;
-                // },
-                controller: _titleController,
-                onSubmitted: (_) => _submitData(),
-                decoration: InputDecoration(
-                  labelText: "Tiltle",
+              Container(
+                margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
+                child: TextField(
+                  // onChanged: (value) {
+                  //   titleInput = value;
+                  // },
+                  controller: _titleController,
+                  onSubmitted: (_) => _submitData(),
+                  decoration: InputDecoration(
+                    labelText: "Tiltle",
+                  ),
                 ),
               ),
-              TextField(
-                // onChanged: (value) => amountInput = value,
-                controller: _amountController,
-                onSubmitted: (_) => _submitData(),
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  labelText: "Amount",
+              Container(
+                margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
+                child: TextField(
+                  // onChanged: (value) => amountInput = value,
+                  controller: _amountController,
+                  onSubmitted: (_) => _submitData(),
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    labelText: "Amount",
+                  ),
                 ),
               ),
-              Row(
-                children: <Widget>[
-                  Flexible(
-                    child: TextField(
-                      controller: _dateController,
-                      readOnly: true,
-                      decoration: InputDecoration(
-                        labelText: "Date",
+              Container(
+                margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
+                child: Row(
+                  children: <Widget>[
+                    Flexible(
+                      child: TextField(
+                        controller: _dateController,
+                        readOnly: true,
+                        decoration: InputDecoration(
+                          labelText: "Date",
+                        ),
                       ),
                     ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () => _presentDatePicker(context),
-                    child: Text("Choose date"),
-                    style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all(Colors.amber.shade400),
-                    ),
-                  )
-                ],
+                    ElevatedButton(
+                      onPressed: () => _presentDatePicker(context),
+                      child: Text("Choose date"),
+                      style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all(Colors.amber.shade400),
+                      ),
+                    )
+                  ],
+                ),
               ),
               Container(
                 width: double.infinity,
-                margin: EdgeInsets.all(10),
+                margin: EdgeInsets.fromLTRB(10, 20, 10, 20),
                 child: ElevatedButton(
                   onPressed: _submitData,
                   child: Text("Add"),
