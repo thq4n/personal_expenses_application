@@ -1,5 +1,6 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:personal_expenses_application/widgets/chart.dart';
 import 'package:personal_expenses_application/widgets/new_transaction.dart';
 
@@ -109,10 +110,55 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  List<Widget> _showPortraitContent(
+    MediaQueryData mediaQuery,
+    AppBar myAppBar,
+  ) {
+    return [
+      Container(
+        height: (mediaQuery.size.height -
+                myAppBar.preferredSize.height -
+                mediaQuery.padding.top) *
+            0.3,
+        child: Chart(_recentTransactions),
+      ),
+      Container(
+        height: (mediaQuery.size.height -
+                myAppBar.preferredSize.height -
+                mediaQuery.padding.top) *
+            0.7,
+        child: TransactionList(_userTransactions, _deleteTransaction),
+      ),
+    ];
+  }
+
+  List<Widget> _showLandscapeContent(
+    MediaQueryData mediaQuery,
+    AppBar myAppBar,
+  ) {
+    return [
+      _chartShow
+          ? Container(
+              height: (mediaQuery.size.height -
+                      myAppBar.preferredSize.height -
+                      mediaQuery.padding.top) *
+                  0.6,
+              child: Chart(_recentTransactions),
+            )
+          : Container(
+              height: (mediaQuery.size.height -
+                      myAppBar.preferredSize.height -
+                      mediaQuery.padding.top) *
+                  0.8,
+              child: TransactionList(_userTransactions, _deleteTransaction),
+            )
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
-    final bool isLandscape =
-        MediaQuery.of(context).orientation == Orientation.landscape;
+    final mediaQuery = MediaQuery.of(context);
+    final bool isLandscape = mediaQuery.orientation == Orientation.landscape;
     final AppBar myAppBar = AppBar(
       title: Text(widget.appTitle),
       actions: <Widget>[
@@ -132,65 +178,37 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             if (isLandscape)
               Container(
-                height: (MediaQuery.of(context).size.height -
+                height: (mediaQuery.size.height -
                         myAppBar.preferredSize.height -
-                        MediaQuery.of(context).padding.top) *
+                        mediaQuery.padding.top) *
                     0.2,
                 child: FittedBox(
                   fit: BoxFit.contain,
                   child: Row(
-                    children: [
+                    children: <Widget>[
                       Text("Show chart: "),
                       Switch(
-                          value: _chartShow,
-                          onChanged: (value) => _showChar(value)),
+                        value: _chartShow,
+                        onChanged: (value) => _showChar(value),
+                      ),
                     ],
                   ),
                 ),
               ),
-            if (isLandscape)
-              _chartShow
-                  ? Container(
-                      height: (MediaQuery.of(context).size.height -
-                              myAppBar.preferredSize.height -
-                              MediaQuery.of(context).padding.top) *
-                          0.6,
-                      child: Chart(_recentTransactions),
-                    )
-                  : Container(
-                      height: (MediaQuery.of(context).size.height -
-                              myAppBar.preferredSize.height -
-                              MediaQuery.of(context).padding.top) *
-                          0.8,
-                      child: TransactionList(
-                          _userTransactions, _deleteTransaction),
-                    ),
-            if (!isLandscape)
-              Container(
-                height: (MediaQuery.of(context).size.height -
-                        myAppBar.preferredSize.height -
-                        MediaQuery.of(context).padding.top) *
-                    0.3,
-                child: Chart(_recentTransactions),
-              ),
-            if (!isLandscape)
-              Container(
-                height: (MediaQuery.of(context).size.height -
-                        myAppBar.preferredSize.height -
-                        MediaQuery.of(context).padding.top) *
-                    0.7,
-                child: TransactionList(_userTransactions, _deleteTransaction),
-              ),
+            if (isLandscape) ..._showLandscapeContent(mediaQuery, myAppBar),
+            if (!isLandscape) ..._showPortraitContent(mediaQuery, myAppBar),
           ],
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () {
-          _startAddNewTransation(context);
-        },
-      ),
+      floatingActionButton: Platform.isIOS
+          ? Container()
+          : FloatingActionButton(
+              child: Icon(Icons.add),
+              onPressed: () {
+                _startAddNewTransation(context);
+              },
+            ),
     );
   }
 }
