@@ -51,7 +51,7 @@ class _NewTransactionState extends State<NewTransaction> {
       context: ctx,
       initialDate: DateTime.now(),
       firstDate: DateTime(1900),
-      lastDate: DateTime(2090),
+      lastDate: DateTime.now(),
     ).then((value) {
       if (value == null) {
         return;
